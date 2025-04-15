@@ -17,7 +17,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 def home_page(request):
     latest_new=News.published.first()
-    latest_news=News.published.exclude(id=latest_new.id)[:4]
+    latest_news=News.published.exclude(id=latest_new.pk)[:4]
     sport_news=News.published.filter(category__name="Sport")
     teno_news=News.published.filter(category__name="Texnologiya")
     mahaliy_news=News.published.filter(category__name="Mahalliy")
