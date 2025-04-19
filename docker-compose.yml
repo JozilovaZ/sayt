@@ -26,7 +26,7 @@ services:
           - .:/app
         depends_on:
           - redis
-          - web
+          - app
         environment:
           - PYTHONUNBUFFERED=1
 
