@@ -13,28 +13,53 @@ from django.contrib.auth import login,logout
 from django.contrib.auth.forms import UserCreationForm
 
 
-
+# news/views.py
+from django.shortcuts import render
+from django.core.cache import cache
+from .tasks import cache_news_data
 
 def home_page(request):
-    latest_new=News.published.first()
-    latest_news=News.published.exclude(id=latest_new.id)[:4]
-    sport_news=News.published.filter(category__name="Sport")
-    teno_news=News.published.filter(category__name="Texnologiya")
-    mahaliy_news=News.published.filter(category__name="Mahalliy")
-    xorij_news=News.published.filter(category__name="Xorij")
+    # Keshdan ma'lumotlarni olish
+    latest_new = cache.get('latest_new')
+    latest_news = cache.get('latest_news')
+    sport_news = cache.get('sport_news')
+    teno_news = cache.get('teno_news')
+    mahaliy_news = cache.get('mahaliy_news')
+    xorij_news = cache.get('xorij_news')
 
-    context={
-        "latest_new":latest_new,
-        "latest_news":latest_news,
-        "sport_news":sport_news,
-        "teno_news":teno_news,
-        "mahaliy_news":mahaliy_news,
-        "xorij_news":xorij_news
+    # Agar keshda ma'lumot bo'lmasa, taskni ishga tushiramiz
+    if not all([latest_new, latest_news, sport_news, teno_news, mahaliy_news, xorij_news]):
+        cache_news_data.delay()  # Taskni asinxron ravishda ishga tushirish
+        # Birinchi so'rov uchun ma'lumotlarni to'g'ridan-to'g'ri olish
+        latest_new = News.published.first()
+        if latest_new:
+            latest_news = News.published.exclude(id=latest_new.id)[:4]
+        else:
+            latest_news = News.published.all()
 
+        sport_news = News.published.filter(category__name="Sport")
+        teno_news = News.published.filter(category__name="Texnologiya")
+        mahaliy_news = News.published.filter(category__name="Mahalliy")
+        xorij_news = News.published.filter(category__name="Xorij")
 
+        # Ma'lumotlarni keshga saqlash
+        cache.set('latest_new', latest_new, timeout=300)
+        cache.set('latest_news', latest_news, timeout=300)
+        cache.set('sport_news', sport_news, timeout=300)
+        cache.set('teno_news', teno_news, timeout=300)
+        cache.set('mahaliy_news', mahaliy_news, timeout=300)
+        cache.set('xorij_news', xorij_news, timeout=300)
 
+    context = {
+        "latest_new": latest_new,
+        "latest_news": latest_news,
+        "sport_news": sport_news,
+        "teno_news": teno_news,
+        "mahaliy_news": mahaliy_news,
+        "xorij_news": xorij_news,
     }
-    return render(request,"index.html",context)
+    return render(request, "index.html", context)
+
 
 
 
