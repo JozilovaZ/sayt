@@ -10,25 +10,7 @@ services:
       - PYTHONUNBUFFERED=1
     networks:
       - app-network
-  redis:
-        image: redis:7.2-alpine
-        ports:
-          - "6379:6379"
-        volumes:
-          - redis_data:/app
 
-  celery:
-        build:
-          context: .
-          dockerfile: Dockerfile
-        command: celery -A config worker --pool=solo --loglevel=info
-        volumes:
-          - .:/app
-        depends_on:
-          - redis
-          - app
-        environment:
-          - PYTHONUNBUFFERED=1
 
 
   nginx:
@@ -43,6 +25,26 @@ services:
       - app
     networks:
       - app-network
+
+  redis:
+    image: redis:7.2-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A config worker --pool=solo --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - app
+    environment:
+      - PYTHONUNBUFFERED=1
 
 networks:
   app-network:
