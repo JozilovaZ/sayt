@@ -13,7 +13,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "80:80"  # Changed to standard HTTP port
+      - "100:100"  # Changed to standard HTTP port
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - static-data:/app/staticfiles
