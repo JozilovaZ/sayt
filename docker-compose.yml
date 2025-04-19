@@ -7,7 +7,7 @@ services:
       - static-data:/app/staticfiles  # Statik fayllar uchun
       - media-data:/app/media  # Media fayllar uchun
     environment:
-      - PYTHONUNBUFFERED=1
+      - PYTHONUNB UFFERED=1
     networks:
       - app-network
 
@@ -53,3 +53,5 @@ networks:
 volumes:
   static-data:
   media-data:
+  redis_data:
+
