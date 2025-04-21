@@ -27,7 +27,7 @@ def home_page(request):
 
     # Agar keshda ma'lumot bo'lmasa, taskni ishga tushiramiz
     if not all([latest_new, latest_news, sport_news, teno_news, mahaliy_news, xorij_news]):
-        cache_news_data.delay()  # Taskni asinxron ravishda ishga tushirish
+        cache_news_data()  # Taskni asinxron ravishda ishga tushirish
         # Birinchi so'rov uchun ma'lumotlarni to'g'ridan-to'g'ri olish
         latest_new = News.published.first()
         if latest_new:
