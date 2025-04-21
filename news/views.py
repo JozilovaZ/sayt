@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views import View
 from taggit.models import Tag
 from .models import Contact,Category,Comments,News
 import requests
@@ -265,11 +264,11 @@ def LogoutView(request):
     return redirect("login")
 
 
-class CommentsView(View):
-    def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            comment = request.POST.get('comment')
-            new_id = request.POST.get('new_id')
-            new = get_object_or_404(News, id=new_id)
-            Comments.objects.create(user=request.user, new=new, comment=comment)
-            return redirect(new.get_absolute_url())
+# class CommentsView(View):
+#     def post(self, request, *args, **kwargs):
+#         if request.user.is_authenticated:
+#             comment = request.POST.get('comment')
+#             new_id = request.POST.get('new_id')
+#             new = get_object_or_404(News, id=new_id)
+#             Comments.objects.create(user=request.user, new=new, comment=comment)
+#             return redirect(new.get_absolute_url())

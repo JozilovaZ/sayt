@@ -19,6 +19,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{new.title }}</h5>
                     <a href="{% url 'batafsil' new.slug %}" class="btn btn-primary btn-sm">Batafsil</a>
+
                 </div>
                 <div class="card-footer text-muted">
                     {{new.publish_time|date:"d-m-Y H:i"}}
