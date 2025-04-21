@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (home_page, contact_page_view, mahalliy_page_view, sport_page_view, xorij_page_view,
                     texnologiya_page_view, seach_new_page, new_detail_page, addnew_view, add_category_view,
                     add_news_with_tags,
-                    register, CustomLoginView, LogoutView, CommentsView
+                    register, CustomLoginView, LogoutView
                     )
 
 
@@ -23,7 +23,7 @@ urlpatterns=[
     path('register/', register, name='register'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView, name='logout'),
-    path('news/<int:pk>/', CommentsView.as_view(), name='news_detail'),
+
 
 
 ]
