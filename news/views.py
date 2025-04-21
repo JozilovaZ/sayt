@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect, get_object_or_404
 from taggit.models import Tag
@@ -8,8 +7,8 @@ import requests
 from  django.db.models import Q
 from .forms import AddNewsForm,AddCategoryForm
 from django.contrib.auth import login,logout
-
 from django.contrib.auth.forms import UserCreationForm
+
 
 
 # news/views.py
@@ -263,12 +262,3 @@ def LogoutView(request):
     logout(request)
     return redirect("login")
 
-
-# class CommentsView(View):
-#     def post(self, request, *args, **kwargs):
-#         if request.user.is_authenticated:
-#             comment = request.POST.get('comment')
-#             new_id = request.POST.get('new_id')
-#             new = get_object_or_404(News, id=new_id)
-#             Comments.objects.create(user=request.user, new=new, comment=comment)
-#             return redirect(new.get_absolute_url())

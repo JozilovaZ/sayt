@@ -36,12 +36,3 @@ class AddCategoryForm(forms.ModelForm):
 
 
 
-
-# class CommentForm(forms.ModelForm):
-#     class Meta:
-#         model = Comments
-#         fields = ['comment']
-#         widgets = {
-#             'comment': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Write your comment...'}),
-#         }
-
