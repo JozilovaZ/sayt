@@ -25,15 +25,14 @@ services:
 
   redis:
     image: redis:7.2-alpine
-    command: [ "redis-server", "--bind", "0.0.0.0", "--port", "6379" ]
-
+    command: [ "redis-server", "--bind", "0.0.0.0", "--port", "6379", "--appendonly", "yes" ]
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
-      - app-network  # Added network
-    healthcheck:   # Added healthcheck
+      - app-network
+    healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 30s
       timeout: 10s
